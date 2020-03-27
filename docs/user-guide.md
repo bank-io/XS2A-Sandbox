@@ -1,13 +1,16 @@
-# XS2ASandbox User Guide
+## XS2ASandbox User Guide
 
 This document describes how to configure XS2ASandbox in your environment.
 
 ## e-mail configuration
 
 To enable mail sending you should configure environment:
+
+```
   - SPRING_MAIL_HOST=
   - SPRING_MAIL_PORT=
-  
+ ```
+ 
 ## Password reset
 
 ```
