@@ -2,7 +2,7 @@
 
 This document describes how to configure XS2ASandbox in your environment.
 
-## e-mail configuration
+### E-mail configuration
 
 To enable mail sending you should configure environment:
 
@@ -11,7 +11,7 @@ To enable mail sending you should configure environment:
   - SPRING_MAIL_PORT=
  ```
  
-## Password reset
+### Password reset
 
 ```
 reset-password:
