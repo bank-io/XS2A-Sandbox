@@ -9,7 +9,7 @@ import {AuthService} from '../../../services/auth.service';
 import {CertGenerationService} from '../../../services/cert-generation.service';
 import {CustomizeService} from '../../../services/customize.service';
 import {SettingsService} from '../../../services/settings.service';
-import {TppIdPatterns, TppIdStructure, TppIdType} from "../../../models/tpp-id-structure.model";
+import {TppIdPatterns, TppIdStructure, TppIdType} from '../../../models/tpp-id-structure.model';
 
 @Component({
   selector: 'app-register',
@@ -29,9 +29,11 @@ export class RegisterComponent implements OnInit {
   public countries: Array<any> = [];
   public showTppStructureMessage = false;
   public tppIdStructure: TppIdStructure = {
-    "length": 8,
-    "type": TppIdType.n
+    length: 8,
+    type: TppIdType.n
   };
+
+  private timeout = 2000;
 
   constructor(private service: AuthService,
               private certGenerationService: CertGenerationService,
@@ -57,7 +59,7 @@ export class RegisterComponent implements OnInit {
         },
         error => {
           console.log(error);
-          this.infoService.openFeedback("Could not get TPP ID structure for this country!");
+          this.infoService.openFeedback('Could not get TPP ID structure for this country!');
         }
       );
   }
@@ -87,7 +89,7 @@ export class RegisterComponent implements OnInit {
       },
       error => {
         console.log(error);
-        this.infoService.openFeedback("Could not download country list!");
+        this.infoService.openFeedback('Could not download country list!');
       }
     );
   }
@@ -147,7 +149,7 @@ export class RegisterComponent implements OnInit {
         if (url) {
           setTimeout(() => {
             this.downloadFile(url);
-          }, 2000, url)
+          }, this.timeout, url)
         }
       })
   }

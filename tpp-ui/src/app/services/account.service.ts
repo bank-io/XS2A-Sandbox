@@ -1,12 +1,12 @@
 import {HttpClient} from '@angular/common/http';
 import {Injectable} from '@angular/core';
-import {Observable} from "rxjs";
-import {map} from "rxjs/operators";
+import {Observable} from 'rxjs';
+import {map} from 'rxjs/operators';
 import {environment} from '../../environments/environment';
 import {AccountReport} from '../models/account-report';
 import {Amount} from '../models/amount.model';
 import {GrantAccountAccess} from '../models/grant-account-access.model';
-import {PaginationResponse} from "../models/pagination-reponse";
+import {PaginationResponse} from '../models/pagination-reponse';
 import {Account} from '../models/account.model';
 
 @Injectable({
@@ -45,7 +45,7 @@ export class AccountService {
 
   createAccount(userId: string, account: Account) {
     return this.http.post(this.url + '/accounts', account, {
-      params: {userId: userId}
+      params: {userId}
     });
   }
 

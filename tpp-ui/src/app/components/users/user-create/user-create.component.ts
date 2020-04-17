@@ -1,10 +1,10 @@
 import {Component, OnInit} from '@angular/core';
-import {FormArray, FormBuilder, FormGroup, Validators} from "@angular/forms";
-import {ActivatedRoute, Router} from "@angular/router";
-import {UserService} from "../../../services/user.service";
-import {User} from "../../../models/user.model";
-import {InfoService} from "../../../commons/info/info.service";
-import {ScaMethods} from "../../../models/scaMethods";
+import {FormArray, FormBuilder, FormGroup, Validators} from '@angular/forms';
+import { Router} from '@angular/router';
+import {UserService} from '../../../services/user.service';
+import {User} from '../../../models/user.model';
+import {InfoService} from '../../../commons/info/info.service';
+import {ScaMethods} from '../../../models/scaMethods';
 
 @Component({
     selector: 'app-user-create',
@@ -19,13 +19,13 @@ export class UserCreateComponent implements OnInit {
 
     userForm: FormGroup;
     submitted: boolean;
+  private minPinLength = 5;
 
     constructor(
         private userService: UserService,
         private formBuilder: FormBuilder,
         private router: Router,
-        private infoService: InfoService,
-        private route: ActivatedRoute) {
+        private infoService: InfoService) {
     }
 
     get formControl() {
@@ -44,7 +44,7 @@ export class UserCreateComponent implements OnInit {
             ]),
             email: ['', [Validators.required, Validators.email]],
             login: ['', Validators.required],
-            pin: ['', [Validators.required, Validators.minLength(5)]],
+            pin: ['', [Validators.required, Validators.minLength(this.minPinLength)]],
             userRoles: this.formBuilder.array(['CUSTOMER']) // register users with customer role
         });
     }
@@ -77,7 +77,7 @@ export class UserCreateComponent implements OnInit {
             if (value === ScaMethods.EMAIL) {
                 scaData.get('staticTan').setValidators(emailValidators);
             } else if (value === ScaMethods.MOBILE) {
-                scaData.get('staticTan').setValidators([Validators.required, 
+                scaData.get('staticTan').setValidators([Validators.required,
                     Validators.pattern(new RegExp(/^[+]*[(]{0,1}[0-9]{1,4}[)]{0,1}[-\s\./0-9]*$/))]);
             } else {
                 scaData.get('scaMethod').setValidators([Validators.required]);
@@ -87,12 +87,12 @@ export class UserCreateComponent implements OnInit {
     }
 
     addScaDataItem() {
-        const control = <FormArray>this.userForm.controls['scaUserData'];
+        const control = this.userForm.controls['scaUserData'] as FormArray;
         control.push(this.initScaData());
     }
 
     removeScaDataItem(i: number) {
-        const control = <FormArray>this.userForm.controls['scaUserData'];
+        const control = this.userForm.controls['scaUserData'] as FormArray;
         control.removeAt(i);
     }
 
@@ -107,7 +107,7 @@ export class UserCreateComponent implements OnInit {
             .subscribe(() => {
                 this.router.navigateByUrl('/users/all');
             }, () => {
-                this.infoService.openFeedback("Provided Login or Email are already taken", {
+                this.infoService.openFeedback('Provided Login or Email are already taken', {
                     severity: 'error'
                 });
             });

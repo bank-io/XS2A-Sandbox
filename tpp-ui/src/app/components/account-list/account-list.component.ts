@@ -4,7 +4,7 @@ import {Router, ActivatedRoute} from '@angular/router';
 import {Account} from '../../models/account.model';
 import {Subscription} from 'rxjs';
 import {map, tap, debounceTime} from 'rxjs/operators';
-import {PageConfig, PaginationConfigModel} from "../../models/pagination-config.model";
+import {PageConfig, PaginationConfigModel} from '../../models/pagination-config.model';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import {PageNavigationService} from '../../services/page-navigation.service';
 
@@ -22,6 +22,7 @@ export class AccountListComponent implements OnInit, OnDestroy {
     currentPageNumber: 1,
     totalItems: 0,
   };
+  private dueTime = 750;
 
   constructor(private accountService: AccountService,
               private formBuilder: FormBuilder,
@@ -57,7 +58,7 @@ export class AccountListComponent implements OnInit, OnDestroy {
   }
 
   goToDepositCash(account: Account) {
-    if (!this.isAccountEnabled(account)) return false;
+    if (!this.isAccountEnabled(account)) { return false; }
     this.router.navigate(['/accounts/' + account.id + '/deposit-cash']);
   }
 
@@ -78,7 +79,7 @@ export class AccountListComponent implements OnInit, OnDestroy {
       tap(val => {
         this.searchForm.patchValue(val, { emitEvent: false });
       }),
-      debounceTime(750)
+      debounceTime(this.dueTime)
     ).subscribe(form => {
       this.config.itemsPerPage = form.itemsPerPage;
       this.getAccounts(1, this.config.itemsPerPage, form.query);

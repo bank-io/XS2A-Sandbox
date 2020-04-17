@@ -1,8 +1,8 @@
 import {inject, TestBed} from '@angular/core/testing';
-import {HttpClientModule} from "@angular/common/http";
+import {HttpClientModule} from '@angular/common/http';
 import {HttpClientTestingModule, HttpTestingController} from '@angular/common/http/testing';
 import {CertGenerationService} from './cert-generation.service';
-import {environment} from "../../environments/environment";
+import {environment} from '../../environments/environment';
 
 describe('CertGenerationService', () => {
     let httpMock: HttpTestingController;
@@ -24,7 +24,7 @@ describe('CertGenerationService', () => {
     }));
 
     it('should load the generate', () => {
-        let mockCertData: any = {
+        const mockCertData: any = {
         }
         certGenerationService.generate(mockCertData).subscribe((data: any) => {
             expect(data).toBe('')});;

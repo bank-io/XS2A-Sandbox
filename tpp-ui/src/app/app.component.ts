@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 
 import { CustomizeService, Theme, GlobalSettings } from './services/customize.service';
-import {Title} from "@angular/platform-browser";
+import {Title} from '@angular/platform-browser';
 
 @Component({
     selector: 'app-root',

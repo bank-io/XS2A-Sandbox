@@ -1,16 +1,16 @@
 import {async, ComponentFixture, TestBed} from '@angular/core/testing';
 import {AccountService} from '../../../services/account.service';
 import {UserDetailsComponent} from './user-details.component';
-import {UserService} from "../../../services/user.service";
-import {RouterTestingModule} from "@angular/router/testing";
-import {ReactiveFormsModule} from "@angular/forms";
-import {HttpClientTestingModule} from "@angular/common/http/testing";
-import {Router, ActivatedRoute} from "@angular/router";
+import {UserService} from '../../../services/user.service';
+import {RouterTestingModule} from '@angular/router/testing';
+import {ReactiveFormsModule} from '@angular/forms';
+import {HttpClientTestingModule} from '@angular/common/http/testing';
+import {Router, ActivatedRoute} from '@angular/router';
 import {of, throwError} from 'rxjs';
-import {User} from "../../../models/user.model";
-import {EmailVerificationService} from "../../../services/email-verification.service";
-import {InfoService} from "../../../commons/info/info.service";
-import {InfoModule} from "../../../commons/info/info.module";
+import {User} from '../../../models/user.model';
+import {EmailVerificationService} from '../../../services/email-verification.service';
+import {InfoService} from '../../../commons/info/info.service';
+import {InfoModule} from '../../../commons/info/info.module';
 import {Account} from '../../../models/account.model';
 import { AccountStatus, AccountType, UsageType } from '../../../models/account.model';
 
@@ -55,7 +55,7 @@ describe('UserDetailsComponent', () => {
   });
 
   it('should get user by Id', () => {
-      let mockUser: User =
+      const mockUser: User =
         {
             id: 'XXXXXX',
             email: 'tes@adorsys.de',
@@ -65,7 +65,7 @@ describe('UserDetailsComponent', () => {
             scaUserData: {},
             accountAccesses: {}
         } as User;
-      let getUserSpy = spyOn(userService, 'getUser').and.returnValue(of(mockUser));
+      const getUserSpy = spyOn(userService, 'getUser').and.returnValue(of(mockUser));
       component.getUserById();
       expect(getUserSpy).toHaveBeenCalled();
       expect(component.user).toEqual(mockUser);
@@ -88,7 +88,7 @@ describe('UserDetailsComponent', () => {
     });
 
     it('should load users on NgOnInit', () => {
-    let mockUser: User =
+    const mockUser: User =
       {
         id: 'XXXXXX',
         email: 'tes@adorsys.de',
@@ -98,7 +98,7 @@ describe('UserDetailsComponent', () => {
         scaUserData: {},
         accountAccesses: {}
       } as User;
-    let getUserSpy = spyOn(userService, 'getUser').and.returnValue(of(mockUser));
+    const getUserSpy = spyOn(userService, 'getUser').and.returnValue(of(mockUser));
 
     component.ngOnInit();
 
@@ -108,8 +108,8 @@ describe('UserDetailsComponent', () => {
 
   it('should handle Click Iban', () => {
       const accountId = 'abc232';
-      let getAccountSpy = spyOn(accountService, 'getAccountByIban').and.returnValue(of({id: accountId}));
-      let navigateSpy = spyOn(router, 'navigate');
+      const getAccountSpy = spyOn(accountService, 'getAccountByIban').and.returnValue(of({id: accountId}));
+      const navigateSpy = spyOn(router, 'navigate');
       const clickEvent = {target: {innerHTML: 'DE980000000001'}};
       component.handleClickOnIBAN(clickEvent);
       expect(getAccountSpy).toHaveBeenCalledTimes(1);

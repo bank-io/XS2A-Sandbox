@@ -1,24 +1,20 @@
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
-import { RouterTestingModule } from '@angular/router/testing';
 import {TppUserService} from '../../services/tpp.user.service';
 import {AuthService} from '../../services/auth.service';
-import {TppService} from "../../services/tpp.service";
-import {NgbModal} from "@ng-bootstrap/ng-bootstrap";
+import {TppService} from '../../services/tpp.service';
+import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import { Router } from '@angular/router';
 import { DebugElement } from '@angular/core';
 import {User} from '../../models/user.model';
 import { UserProfileUpdateComponent } from './user-profile-update.component';
 import {of} from 'rxjs';
-import get = Reflect.get;
+
 describe('UserProfileUpdateComponent', () => {
   let component: UserProfileUpdateComponent;
   let fixture: ComponentFixture<UserProfileUpdateComponent>;
   let userInfoService: TppUserService;
-  let router: Router;
-  let de: DebugElement;
-  let el: HTMLElement;
 
     const mockUser: User = {
         id: 'id',
@@ -98,7 +94,7 @@ describe('UserProfileUpdateComponent', () => {
   });
 
   it('should load the update users info', () => {
-    let infoSpy = spyOn(userInfoService, 'updateUserInfo').and.returnValue(of({mockUser}));
+    const infoSpy = spyOn(userInfoService, 'updateUserInfo').and.returnValue(of({mockUser}));
     component.user = mockUser;
     component.userForm.get('email').setValue('dart.vader@dark-side.com');
     component.userForm.get('username').setValue('dart.vader');

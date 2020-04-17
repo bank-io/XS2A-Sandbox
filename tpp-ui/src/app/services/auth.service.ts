@@ -1,13 +1,13 @@
 import {Injectable} from '@angular/core';
-import {HttpClient, HttpHeaders, HttpParams} from "@angular/common/http";
-import {environment} from "../../environments/environment";
-import {catchError, map} from "rxjs/operators";
-import {Observable, of} from "rxjs";
-import {JwtHelperService} from "@auth0/angular-jwt";
-import {Credentials} from "../models/credentials.model";
-import {Router} from "@angular/router";
-import {AutoLogoutService} from "./auto-logout.service";
-import {TppInfo} from "../models/tpp-info.model";
+import {HttpClient, HttpHeaders, HttpParams} from '@angular/common/http';
+import {environment} from '../../environments/environment';
+import {catchError, map} from 'rxjs/operators';
+import {Observable, of} from 'rxjs';
+import {JwtHelperService} from '@auth0/angular-jwt';
+import {Credentials} from '../models/credentials.model';
+import {Router} from '@angular/router';
+import {AutoLogoutService} from './auto-logout.service';
+import {TppInfo} from '../models/tpp-info.model';
 
 @Injectable({
   providedIn: 'root'
@@ -39,7 +39,7 @@ export class AuthService {
   login(credentials: any): Observable<boolean> {
     return this.authorize(credentials).pipe(
       map(jwt => {
-        if (jwt != undefined) {
+        if (jwt !== undefined) {
           // this.autoLogoutService.initializeTokenMonitoring();
           localStorage.setItem(this.authTokenStorageKey, jwt);
           return true;
@@ -87,6 +87,6 @@ export class AuthService {
 
   getTppIdStructure(countryCode: string): Observable<any> {
     return this.http.get(this.url + '/country/codes/structure',
-      {params: new HttpParams().set("countryCode", countryCode)});
+      {params: new HttpParams().set('countryCode', countryCode)});
   }
 }

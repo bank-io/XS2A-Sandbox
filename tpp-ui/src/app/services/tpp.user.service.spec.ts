@@ -30,7 +30,7 @@ describe('TppUserService', () => {
     });
 
     it('should load user info', () => {
-        let mockUser: User = {
+        const mockUser: User = {
             id: '12345',
             email: 'tes@adorsys.de',
             login: 'bob',
@@ -52,7 +52,7 @@ describe('TppUserService', () => {
     });
 
     it('should update User Info', () => {
-        let mockUser: User = {
+        const mockUser: User = {
                 id: 'XXXXXX',
                 email: 'tes@adorsys.de',
                 login: 'bob',

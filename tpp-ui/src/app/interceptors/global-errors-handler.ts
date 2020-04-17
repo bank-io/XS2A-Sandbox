@@ -1,7 +1,7 @@
-import {ErrorHandler, Injectable, Injector, NgZone} from "@angular/core";
-import {ActivatedRoute, Router} from "@angular/router";
-import {HttpErrorResponse} from "@angular/common/http";
-import {InfoService} from "../commons/info/info.service";
+import {ErrorHandler, Injectable, Injector, NgZone} from '@angular/core';
+import {ActivatedRoute, Router} from '@angular/router';
+import {HttpErrorResponse} from '@angular/common/http';
+import {InfoService} from '../commons/info/info.service';
 
 @Injectable()
 export class GlobalErrorsHandler implements ErrorHandler {
@@ -24,20 +24,20 @@ export class GlobalErrorsHandler implements ErrorHandler {
     }
 
     public handleError(errorObj) {
-        console.error("TPP UI error handler: ", errorObj);
+        console.error('TPP UI error handler: ', errorObj);
 
         if (errorObj instanceof HttpErrorResponse) {
 
             this.zone.run(() => {
-                let error = errorObj.error;
-                let errorMessage = error ? error.message : error.statusText;
+                const error = errorObj.error;
+                const errorMessage = error ? error.message : error.statusText;
                 this.infoService.openFeedback(errorMessage, {
                     severity: 'error'
                 });
             });
         } else {
             this.zone.run(() => {
-                let errorMessage = errorObj.message;
+                const errorMessage = errorObj.message;
                 this.infoService.openFeedback(errorMessage, {
                     severity: 'info'
                 });

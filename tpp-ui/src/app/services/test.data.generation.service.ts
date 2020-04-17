@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
-import {environment} from "../../environments/environment";
-import {HttpClient} from "@angular/common/http";
+import {environment} from '../../environments/environment';
+import {HttpClient} from '@angular/common/http';
 
 @Injectable({providedIn: 'root'})
 export class TestDataGenerationService {
@@ -25,6 +25,6 @@ export class TestDataGenerationService {
     }
 
     public generateIban() {
-        return this.http.get(this.baseUrl + '/data/generate/iban', {responseType: "text"});
+        return this.http.get(this.baseUrl + '/data/generate/iban', {responseType: 'text'});
     }
 }

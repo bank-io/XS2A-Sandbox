@@ -1,32 +1,24 @@
 import {Component, OnDestroy, OnInit, ViewChild, ViewEncapsulation} from '@angular/core';
-import {Account} from "../../models/account.model";
-import {User} from "../../models/user.model";
-import {UserService} from "../../services/user.service";
-import {merge, Observable, Subject, Subscription,} from "rxjs";
-import {FormBuilder, FormGroup, Validators} from "@angular/forms";
-import {ActivatedRoute, Router} from "@angular/router";
-import {AccountService} from "../../services/account.service";
-import {InfoService} from "../../commons/info/info.service";
-import {debounceTime, distinctUntilChanged, filter, map} from "rxjs/operators";
-import {NgbTypeahead} from "@ng-bootstrap/ng-bootstrap";
+import {Account} from '../../models/account.model';
+import {User} from '../../models/user.model';
+import {UserService} from '../../services/user.service';
+import {merge, Observable, Subject, Subscription,} from 'rxjs';
+import {FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {ActivatedRoute, Router} from '@angular/router';
+import {AccountService} from '../../services/account.service';
+import {InfoService} from '../../commons/info/info.service';
+import {debounceTime, distinctUntilChanged, filter, map} from 'rxjs/operators';
+import {NgbTypeahead} from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
     selector: 'app-account-access-management',
     templateUrl: './account-access-management.component.html',
-    styleUrls: ['./account-access-management.component.scss'],
-    encapsulation: ViewEncapsulation.None
+    styleUrls: ['./account-access-management.component.scss']
 })
 export class AccountAccessManagementComponent implements OnInit, OnDestroy {
-
-    users: User[];
-    account: Account;
-    subscription = new Subscription();
-
-    accountAccessForm: FormGroup;
-
-    submitted = false;
-    errorMessage = null;
-    accessTypes = ['OWNER', 'READ', 'DISPOSE'];
+  private maxScaWeight = 100;
+  private timeout = 3000;
+  private dueTime = 200;
 
     constructor(private userService: UserService,
                 private accountService: AccountService,
@@ -42,6 +34,20 @@ export class AccountAccessManagementComponent implements OnInit, OnDestroy {
         });
     }
 
+    users: User[];
+    account: Account;
+    subscription = new Subscription();
+
+    accountAccessForm: FormGroup;
+
+    submitted = false;
+    errorMessage = null;
+    accessTypes = ['OWNER', 'READ', 'DISPOSE'];
+
+    @ViewChild('instance', {static: true}) instance: NgbTypeahead;
+    focus$ = new Subject<User[]>();
+    click$ = new Subject<User[]>();
+
     ngOnInit() {
         this.listUsers();
         this.setupAccountAccessFormControl();
@@ -52,14 +58,14 @@ export class AccountAccessManagementComponent implements OnInit, OnDestroy {
             iban: [''],
             currency: [''],
             id: ['', Validators.required],
-            scaWeight: [0, [Validators.required, Validators.min(0), Validators.max(100)]],
+            scaWeight: [0, [Validators.required, Validators.min(0), Validators.max(this.maxScaWeight)]],
             accessType: ['READ', [Validators.required]],
             accountId: ['']
         });
     }
 
     listUsers() {
-        const MAX_VALUE = 2147483647; //for getting all the available user
+        const MAX_VALUE = 2147483647; // for getting all the available user
         this.userService.listUsers( 0 , MAX_VALUE).subscribe((resp: any) => {
             this.users = resp.users;
         });
@@ -74,23 +80,19 @@ export class AccountAccessManagementComponent implements OnInit, OnDestroy {
         this.accountAccessForm.get('iban').setValue(this.account.iban);
         this.accountAccessForm.get('currency').setValue(this.account.currency);
         this.accountAccessForm.get('accountId').setValue(this.account.id);
-        this.accountService.updateAccountAccessForUser(this.accountAccessForm.getRawValue()).subscribe(response => {
+        this.accountService.updateAccountAccessForUser(this.accountAccessForm.getRawValue()).subscribe(() => {
             this.infoService
-                .openFeedback("Access to account " + this.account.iban + " successfully granted", {duration: 3000});
+                .openFeedback('Access to account ' + this.account.iban + ' successfully granted', {duration: 3000});
 
             setTimeout(() => {
                 this.router.navigate(['/users/all'])
-            }, 3000)
+            }, this.timeout)
 
         });
     }
 
-    @ViewChild('instance', {static: true}) instance: NgbTypeahead;
-    focus$ = new Subject<User[]>();
-    click$ = new Subject<User[]>();
-
     search: (obs: Observable<string>) => Observable<User[]> = (text$: Observable<string>) => {
-        const debouncedText$ = text$.pipe(debounceTime(200), distinctUntilChanged());
+        const debouncedText$ = text$.pipe(debounceTime(this.dueTime), distinctUntilChanged());
         const clicksWithClosedPopup$ = this.click$.pipe(filter(() => !this.instance.isPopupOpen()));
         const inputFocus$ = this.focus$;
         return merge(debouncedText$, inputFocus$, clicksWithClosedPopup$)

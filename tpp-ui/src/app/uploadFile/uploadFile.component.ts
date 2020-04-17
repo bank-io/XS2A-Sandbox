@@ -1,8 +1,8 @@
 import {Component, OnInit} from '@angular/core';
 import {environment} from '../../environments/environment';
 import {UploadOptions} from '../services/upload.service';
-import {TestDataGenerationService} from "../services/test.data.generation.service";
-import {InfoService} from "../commons/info/info.service";
+import {TestDataGenerationService} from '../services/test.data.generation.service';
+import {InfoService} from '../commons/info/info.service';
 
 @Component({
   selector: 'app-upload-file',
@@ -51,9 +51,9 @@ export class UploadFileComponent implements OnInit {
       .subscribe(data => {
         this.infoService.openFeedback(this.message);
         const blob = new Blob([data], {type: 'plain/text'});
-        let link = document.createElement("a");
-        link.setAttribute("href", window.URL.createObjectURL(blob));
-        link.setAttribute("download", uploadDataConfig.exampleFileName);
+        const link = document.createElement('a');
+        link.setAttribute('href', window.URL.createObjectURL(blob));
+        link.setAttribute('download', uploadDataConfig.exampleFileName);
         document.body.appendChild(link);
         link.click();
       });

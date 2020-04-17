@@ -11,7 +11,7 @@ import { AccountService } from '../../services/account.service';
 import { AccountComponent } from '../account/account.component';
 import { AccountDetailComponent } from './account-detail.component';
 import { ConvertBalancePipe } from 'src/app/pipes/convertBalance.pipe';
-import {TestDataGenerationService} from "../../services/test.data.generation.service";
+import {TestDataGenerationService} from '../../services/test.data.generation.service';
 
 describe('AccountDetailComponent', () => {
     let component: AccountDetailComponent;
@@ -48,7 +48,7 @@ describe('AccountDetailComponent', () => {
     });
 
     it('create account when form submitted', () => {
-        let mockAccount: Account = {
+        const mockAccount: Account = {
             id: 'XXXXXX',
             iban: 'DE35653635635663',
             bban: 'BBBAN',
@@ -72,11 +72,11 @@ describe('AccountDetailComponent', () => {
         component.onSubmit();
 
         // submit valid form
-        component.accountForm.controls['iban'].setValue("DE33737373773737377");
+        component.accountForm.controls['iban'].setValue('DE33737373773737377');
         expect(component.accountForm.valid).toBeTruthy();
 
         // mock http call
-        let  createAccountSpy = spyOn(accountService, 'createAccount').and.returnValue(of(mockAccount));
+        const  createAccountSpy = spyOn(accountService, 'createAccount').and.returnValue(of(mockAccount));
         component.onSubmit();
 
         expect(component.submitted).toBeTruthy();
@@ -84,18 +84,18 @@ describe('AccountDetailComponent', () => {
     }) ;
 
     it('should initiale the currencies List', () => {
-        let data  = {
+        const data  = {
         }
-        let currenciesSpy = spyOn(accountService, 'getCurrencies').and.returnValue(of({currencies: data}));
+        const currenciesSpy = spyOn(accountService, 'getCurrencies').and.returnValue(of({currencies: data}));
         component.initializeCurrenciesList();
         expect(currenciesSpy).toHaveBeenCalled();
     });
 
     it('should generate Iban',() => {
-        let data  = {
+        const data  = {
         }
-        let infoSpy = spyOn(infoService, 'openFeedback');
-        let generateSpy = spyOn(testDataGenerationService, 'generateIban').and.returnValue(of({data: infoSpy}));
+        const infoSpy = spyOn(infoService, 'openFeedback');
+        const generateSpy = spyOn(testDataGenerationService, 'generateIban').and.returnValue(of({data: infoSpy}));
         component.generateIban();
         expect(infoSpy).toHaveBeenCalledWith('IBAN has been successfully generated');
     });

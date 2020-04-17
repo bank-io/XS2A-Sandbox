@@ -103,7 +103,7 @@ export class IconRegistry implements OnDestroy {
   /**
    * Registers an icon by URL in the default namespace.
    * @param iconName Name under which the icon should be registered.
-   * @param url
+   * @param url URL from which to fetch the SVG icon.
    */
   addSvgIcon(iconName: string, url: SafeResourceUrl): this {
     return this.addSvgIconInNamespace('', iconName, url);
@@ -113,7 +113,7 @@ export class IconRegistry implements OnDestroy {
    * Registers an icon by URL in the specified namespace.
    * @param namespace Namespace in which the icon should be registered.
    * @param iconName Name under which the icon should be registered.
-   * @param url
+   * @param url URL from which to fetch the SVG icon.
    */
   addSvgIconInNamespace(namespace: string, iconName: string, url: SafeResourceUrl): this {
     return this._addSvgIconConfig(namespace, iconName, new SvgIconConfig(url));

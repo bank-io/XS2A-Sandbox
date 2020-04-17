@@ -1,15 +1,15 @@
 import {async, ComponentFixture, TestBed} from '@angular/core/testing';
-import {RouterTestingModule} from "@angular/router/testing";
-import {HttpClientModule} from "@angular/common/http";
-import {FileUploadModule} from "ng2-file-upload";
+import {RouterTestingModule} from '@angular/router/testing';
+import {HttpClientModule} from '@angular/common/http';
+import {FileUploadModule} from 'ng2-file-upload';
 import {UploadOptions} from '../services/upload.service';
-import {DocumentUploadComponent} from "../commons/document-upload/document-upload.component";
-import {IconModule} from "../commons/icon/icon.module";
+import {DocumentUploadComponent} from '../commons/document-upload/document-upload.component';
+import {IconModule} from '../commons/icon/icon.module';
 import {UploadFileComponent} from './uploadFile.component';
-import {TestDataGenerationService} from "../services/test.data.generation.service";
-import {InfoService} from "../commons/info/info.service";
-import {SpinnerVisibilityService} from "ng-http-loader";
-import {InfoModule} from "../commons/info/info.module";
+import {TestDataGenerationService} from '../services/test.data.generation.service';
+import {InfoService} from '../commons/info/info.service';
+import {SpinnerVisibilityService} from 'ng-http-loader';
+import {InfoModule} from '../commons/info/info.module';
 import {environment} from '../../environments/environment';
 import { of } from 'rxjs';
 
@@ -20,7 +20,7 @@ describe('UploadFileComponent', () => {
     let testDataGenerationService: TestDataGenerationService;
     let spinnerService: SpinnerVisibilityService;
 
-    let url = `${environment.tppBackend}`;
+    const url = `${environment.tppBackend}`;
     beforeEach(async(() => {
         TestBed.configureTestingModule({
             imports: [
@@ -50,7 +50,7 @@ describe('UploadFileComponent', () => {
     });
 
     it('should load the ngOninit', () => {
-        let mockUploadConfig:  UploadOptions [] = [{
+        const mockUploadConfig:  UploadOptions [] = [{
             exampleFileName: 'Users-Accounts-Balances-Payments-Example.yml',
             title: 'Upload Users/Accounts/Balances/Payments',
             method: 'PUT',
@@ -77,15 +77,15 @@ describe('UploadFileComponent', () => {
     });
 
     it('should generate the file Example', () => {
-        let mockUploadConfig:  UploadOptions  = {
+        const mockUploadConfig:  UploadOptions  = {
             exampleFileName: 'Users-Accounts-Balances-Payments-Example.yml',
             title: 'Upload Users/Accounts/Balances/Payments',
             method: 'PUT',
             url: url + '/data/upload',
             exampleFileUrl: '/accounts/example'
         };
-        let generateSpy = spyOn(testDataGenerationService, 'generateExampleTestData').and.returnValue(of(mockUploadConfig.exampleFileUrl));
-        let infoSpy = spyOn(infoService, 'openFeedback');
+        const generateSpy = spyOn(testDataGenerationService, 'generateExampleTestData').and.returnValue(of(mockUploadConfig.exampleFileUrl));
+        const infoSpy = spyOn(infoService, 'openFeedback');
         component.generateFileExample(mockUploadConfig);
         expect(infoSpy).toHaveBeenCalledWith('Test data has been successfully generated.');
     });

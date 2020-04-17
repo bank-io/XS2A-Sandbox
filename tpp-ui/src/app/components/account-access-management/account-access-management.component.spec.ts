@@ -1,16 +1,16 @@
 import {async, ComponentFixture, TestBed} from '@angular/core/testing';
-import {User} from "../../models/user.model";
-import {ActivatedRoute, Router} from "@angular/router";
+import {User} from '../../models/user.model';
+import {ActivatedRoute, Router} from '@angular/router';
 import {AccountAccessManagementComponent} from './account-access-management.component';
-import {FormsModule, ReactiveFormsModule} from "@angular/forms";
-import {HttpClientTestingModule} from "@angular/common/http/testing";
-import {AccountService} from "../../services/account.service";
-import {UserService} from "../../services/user.service";
-import {RouterTestingModule} from "@angular/router/testing";
-import {InfoModule} from "../../commons/info/info.module";
-import {InfoService} from "../../commons/info/info.service";
-import {NgbTypeaheadModule} from "@ng-bootstrap/ng-bootstrap";
-import {Account, AccountStatus, AccountType, UsageType} from "../../models/account.model";
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
+import {HttpClientTestingModule} from '@angular/common/http/testing';
+import {AccountService} from '../../services/account.service';
+import {UserService} from '../../services/user.service';
+import {RouterTestingModule} from '@angular/router/testing';
+import {InfoModule} from '../../commons/info/info.module';
+import {InfoService} from '../../commons/info/info.service';
+import {NgbTypeaheadModule} from '@ng-bootstrap/ng-bootstrap';
+import {Account, AccountStatus, AccountType, UsageType} from '../../models/account.model';
 import { of } from 'rxjs';
 import get = Reflect.get;
 
@@ -64,7 +64,8 @@ describe('AccountAccessManagementComponent', () => {
     });
 
     it('should set the validform of accountAccessForm in OnSumbit', () => {
-        let mockAccount: Account = {
+      const scaWeight = 20;
+        const mockAccount: Account = {
                 id: 'XXXXXX',
                 iban: 'DE35653635635663',
                 bban: 'BBBAN',
@@ -84,14 +85,14 @@ describe('AccountAccessManagementComponent', () => {
             } as Account
         component.account = mockAccount;
         component.accountAccessForm.get('id').setValue('12345');
-        component.accountAccessForm.get('scaWeight').setValue(20);
+        component.accountAccessForm.get('scaWeight').setValue(scaWeight);
         component.accountAccessForm.get('accessType').setValue('READ');
-        let getAccountSpy = spyOn(accountService, 'updateAccountAccessForUser').and.returnValue(of(undefined));
-        let infoSpy = spyOn(infoService, 'openFeedback');
+        const getAccountSpy = spyOn(accountService, 'updateAccountAccessForUser').and.returnValue(of(undefined));
+        const infoSpy = spyOn(infoService, 'openFeedback');
         component.onSubmit();
         expect(component.accountAccessForm.invalid).toBeFalsy();
         expect(getAccountSpy).toHaveBeenCalled();
-        expect(infoSpy).toHaveBeenCalledWith("Access to account " + mockAccount.iban + " successfully granted", {duration: 3000});
+        expect(infoSpy).toHaveBeenCalledWith('Access to account ' + mockAccount.iban + ' successfully granted', {duration: 3000});
     });
 
     it('submitted should false', () => {
@@ -118,7 +119,7 @@ describe('AccountAccessManagementComponent', () => {
     });
 
     it('should call the inputFormatterValue', () => {
-        let mockUser: User =
+        const mockUser: User =
             {
                 id: 'USERID',
                 email: 'user@gmail.com',
@@ -133,7 +134,7 @@ describe('AccountAccessManagementComponent', () => {
     });
 
     it('should return a inputFormatterValue ', () => {
-        let mockUser: User =
+        const mockUser: User =
             {
                 id: 'USERID',
                 email: 'user@gmail.com',
@@ -148,7 +149,7 @@ describe('AccountAccessManagementComponent', () => {
     });
 
     it('should call the resultFormatterValue', () => {
-        let mockUser: User =
+        const mockUser: User =
             {
                 id: 'USERID',
                 email: 'user@gmail.com',
@@ -163,7 +164,7 @@ describe('AccountAccessManagementComponent', () => {
     });
 
     it('should return a resultFormatterValue ', () => {
-        let mockUser: User =
+        const mockUser: User =
             {
                 id: 'USERID',
                 email: 'user@gmail.com',
@@ -190,7 +191,7 @@ describe('AccountAccessManagementComponent', () => {
             }
         ];
 
-        let listUsersSpy = spyOn(userService, 'listUsers').and.returnValue(of({users: mockUsers}));;
+        const listUsersSpy = spyOn(userService, 'listUsers').and.returnValue(of({users: mockUsers}));;
         component.listUsers();
         expect(component.users).toEqual(mockUsers);
     });

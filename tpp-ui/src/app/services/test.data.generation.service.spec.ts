@@ -7,7 +7,7 @@ import {environment} from '../../environments/environment';
 describe('TestDataGenerationService', () => {
     let httpMock: HttpTestingController;
     let testDataGenerationService: TestDataGenerationService;
-    let url = `${environment.tppBackend}`;
+    const url = `${environment.tppBackend}`;
 
     beforeEach(() => {
         TestBed.configureTestingModule({

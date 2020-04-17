@@ -1,14 +1,13 @@
 import { Component, OnInit } from '@angular/core';
-import { DomSanitizer } from '@angular/platform-browser';
 import { Router } from '@angular/router';
 
 import { InfoService } from '../../commons/info/info.service';
 import { TestDataGenerationService } from '../../services/test.data.generation.service';
-import {CurrencyService} from "../../services/currency.service";
-import {SpinnerVisibilityService} from "ng-http-loader";
+import {CurrencyService} from '../../services/currency.service';
+import {SpinnerVisibilityService} from 'ng-http-loader';
 
 @Component({
-    selector: 'test-data-generation',
+    selector: 'app-test-data-generation',
     templateUrl: './test-data-generation.component.html',
     styleUrls: ['./test-data-generation.component.scss']
 })
@@ -19,11 +18,11 @@ export class TestDataGenerationComponent implements OnInit {
 
     selectedCurrency;
     currencyList;
+  private timeout = 3000;
 
     constructor(private generationService: TestDataGenerationService,
                 private infoService: InfoService,
                 private router: Router,
-                private sanitizer: DomSanitizer,
                 private currencyService: CurrencyService,
                 private spinner: SpinnerVisibilityService) {
         this.generationService = generationService;
@@ -40,12 +39,12 @@ export class TestDataGenerationComponent implements OnInit {
 
                     setTimeout(() => {
                         const blob = new Blob([data], {type: 'plain/text'});
-                        let link = document.createElement("a");
-                        link.setAttribute("href", window.URL.createObjectURL(blob));
-                        link.setAttribute("download", "NISP-Test-Data.yml");
+                        const link = document.createElement('a');
+                        link.setAttribute('href', window.URL.createObjectURL(blob));
+                        link.setAttribute('download', 'NISP-Test-Data.yml');
                         document.body.appendChild(link);
                         link.click();
-                    }, 3000);
+                    }, this.timeout);
                 this.router.navigate(['/accounts']);
                 });
     }

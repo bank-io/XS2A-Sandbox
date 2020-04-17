@@ -1,5 +1,4 @@
 import { HttpClientTestingModule } from '@angular/common/http/testing';
-import { DebugElement } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormArray, ReactiveFormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
@@ -10,17 +9,14 @@ import { InfoModule } from '../../../commons/info/info.module';
 import { InfoService } from '../../../commons/info/info.service';
 import { UserService } from '../../../services/user.service';
 import { UserCreateComponent } from './user-create.component';
-import {ScaMethods} from "../../../models/scaMethods";
+import {ScaMethods} from '../../../models/scaMethods';
 import { of } from 'rxjs';
 
 describe('UserCreateComponent', () => {
     let component: UserCreateComponent;
     let fixture: ComponentFixture<UserCreateComponent>;
     let userService: UserService;
-    let infoService: InfoService;
     let router: Router;
-    let de: DebugElement;
-    let el: HTMLElement;
 
     beforeEach(async(() => {
         TestBed.configureTestingModule({
@@ -41,7 +37,6 @@ describe('UserCreateComponent', () => {
         fixture = TestBed.createComponent(UserCreateComponent);
         component = fixture.componentInstance;
         userService = TestBed.get(UserService);
-        infoService = TestBed.get(InfoService);
         router = TestBed.get(Router);
         fixture.detectChanges();
     });
@@ -145,15 +140,15 @@ describe('UserCreateComponent', () => {
     });
 
     it('validate addScaData method', () => {
-        const length = (<FormArray>component.userForm.controls['scaUserData']).length;
+        const length = (component.userForm.controls['scaUserData'] as FormArray).length;
         component.addScaDataItem();
-        const newLength = (<FormArray>component.userForm.controls['scaUserData']).length;
+        const newLength = (component.userForm.controls['scaUserData'] as FormArray).length;
         expect(newLength).toEqual(length + 1);
     });
 
     it('validate removeScaDataItem method', () => {
         component.removeScaDataItem(0);
-        const length = (<FormArray>component.userForm.controls['scaUserData']).length;
+        const length = (component.userForm.controls['scaUserData'] as FormArray).length;
         expect(length).toEqual(0);
     });
 
@@ -184,8 +179,8 @@ describe('UserCreateComponent', () => {
 
         // create spies and fake call function
         const sampleResponse = {value: 'sample response'};
-        let createUserSpy = spyOn(userService, 'createUser').and.callFake(() => of(sampleResponse));
-        let navigateSpy = spyOn(router, 'navigateByUrl');
+        const createUserSpy = spyOn(userService, 'createUser').and.callFake(() => of(sampleResponse));
+        const navigateSpy = spyOn(router, 'navigateByUrl');
         component.onSubmit();
         expect(component.submitted).toBeTruthy();
         expect(component.userForm.valid).toBeTruthy();

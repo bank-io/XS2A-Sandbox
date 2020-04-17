@@ -54,7 +54,7 @@ describe('AccountComponent', () => {
     });
 
     it('should call getAccountReport on ngOnInit', () => {
-        let getAccountSpy = spyOn(accountService, 'getAccountReport').and.callThrough();
+        const getAccountSpy = spyOn(accountService, 'getAccountReport').and.callThrough();
 
         component.ngOnInit();
 
@@ -151,11 +151,11 @@ describe('AccountComponent', () => {
                 scaWeight: 4,
             }]
         };
-        component.isAccountDeleted;
+        expect(component.isAccountDeleted).toBeFalsy();
     });
 
     it('should assign account-report after server call', () => {
-        let accountReport = {
+        const accountReport = {
             details: {
                 id: 'XXXXXX',
                 iban: 'DE35653635635663',

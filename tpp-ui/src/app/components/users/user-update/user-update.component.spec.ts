@@ -1,37 +1,21 @@
 import {async, ComponentFixture, TestBed} from '@angular/core/testing';
-import {DebugElement} from '@angular/core';
 import {UserUpdateComponent} from './user-update.component';
-import {UserService} from "../../../services/user.service";
-import {Router, ActivatedRoute} from "@angular/router";
-import {InfoModule} from "../../../commons/info/info.module";
-import {FormArray, ReactiveFormsModule} from "@angular/forms";
-import {HttpClientTestingModule} from "@angular/common/http/testing";
-import {of} from "rxjs";
-import {InfoService} from "../../../commons/info/info.service";
-import {User} from "../../../models/user.model";
-import {RouterTestingModule} from "@angular/router/testing";
-import {IconModule} from "../../../commons/icon/icon.module";
-import {ScaMethods} from "../../../models/scaMethods";
+import {UserService} from '../../../services/user.service';
+import {Router, ActivatedRoute} from '@angular/router';
+import {InfoModule} from '../../../commons/info/info.module';
+import {FormArray, ReactiveFormsModule} from '@angular/forms';
+import {HttpClientTestingModule} from '@angular/common/http/testing';
+import {of} from 'rxjs';
+import {InfoService} from '../../../commons/info/info.service';
+import {User} from '../../../models/user.model';
+import {RouterTestingModule} from '@angular/router/testing';
+import {IconModule} from '../../../commons/icon/icon.module';
 
 describe('UserUpdateComponent', () => {
   let component: UserUpdateComponent;
   let fixture: ComponentFixture<UserUpdateComponent>;
   let userService: UserService;
-  let infoService: InfoService;
-  let activate: ActivatedRoute;
   let router: Router;
-  let de: DebugElement;
-  let el: HTMLElement;
-
-  const mockUser: User = {
-      id: 'id',
-      email: 'email',
-      login: 'login',
-      branch: 'branch',
-      pin: 'pin',
-      scaUserData: [],
-      accountAccesses: []
-  }
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -52,9 +36,7 @@ describe('UserUpdateComponent', () => {
     fixture = TestBed.createComponent(UserUpdateComponent);
     component = fixture.componentInstance;
     userService = TestBed.get(UserService);
-    infoService = TestBed.get(InfoService);
     router = TestBed.get(Router);
-    activate = TestBed.get(ActivatedRoute);
     fixture.detectChanges();
   });
 
@@ -127,15 +109,15 @@ describe('UserUpdateComponent', () => {
   });
 
   it('validate addScaData method', () => {
-      const length = (<FormArray>component.updateUserForm.controls['scaUserData']).length;
+      const length = (component.updateUserForm.controls['scaUserData'] as FormArray).length;
       component.addScaDataItem();
-      const newLength = (<FormArray>component.updateUserForm.controls['scaUserData']).length;
+      const newLength = (component.updateUserForm.controls['scaUserData'] as FormArray).length;
       expect(newLength).toEqual(length + 1);
   });
 
   it('validate removeScaDataItem method', () => {
       component.removeScaDataItem(0);
-      const length = (<FormArray>component.updateUserForm.controls['scaUserData']).length;
+      const length = (component.updateUserForm.controls['scaUserData'] as FormArray).length;
       expect(length).toEqual(0);
   });
 
@@ -173,8 +155,9 @@ describe('UserUpdateComponent', () => {
     });
 
     it('should init scaUserDataFrom when user has saved scaUserData', () => {
+      const expectedLendth = 2;
         component.setupUserFormControl();
-        let mockUser: User =
+        const user: User =
             {
                 id: 'XXXXXX',
                 email: 'tes@adorsys.de',
@@ -201,15 +184,15 @@ describe('UserUpdateComponent', () => {
                 ],
                 accountAccesses: []
             } as User;
-        spyOn(userService, 'getUser').and.returnValue(of(mockUser));
+        spyOn(userService, 'getUser').and.returnValue(of(user));
         component.getUserDetails();
-        const scaUserDataGroups= <FormArray>component.updateUserForm.get('scaUserData');
+        const scaUserDataGroups= component.updateUserForm.get('scaUserData') as FormArray;
         const length = scaUserDataGroups.length;
-        expect(length).toBe(2);
+        expect(length).toBe(expectedLendth);
     });
 
     it('should load actual user and update its details', () => {
-    let mockUser: User =
+    const mockUser: User =
       {
         id: 'XXXXXX',
         email: 'tes@adorsys.de',
@@ -223,21 +206,20 @@ describe('UserUpdateComponent', () => {
         }]
       } as User;
 
-    let getUserSpy = spyOn(userService, 'getUser').and.returnValue(of(mockUser));
+    const getUserSpy = spyOn(userService, 'getUser').and.returnValue(of(mockUser));
 
     component.ngOnInit();
     expect(component.submitted).toBeFalsy();
     expect(component.updateUserForm.valid).toBeTruthy();
 
-    const scaUserData = <FormArray>component.updateUserForm.get('scaUserData');
     component.user = mockUser;
     component.updateUserForm.get('email').setValue('dart.vader@dark-side.com');
     component.updateUserForm.get('login').setValue('dart.vader');
     component.updateUserForm.get('pin').setValue('12345678');
 
     const sampleResponse = {value: 'sample response'};
-    let updateUserDetail = spyOn(userService, 'updateUserDetails').and.callFake(() => of(sampleResponse));
-    let navigateSpy = spyOn(router, 'navigate');
+    const updateUserDetail = spyOn(userService, 'updateUserDetails').and.callFake(() => of(sampleResponse));
+    const navigateSpy = spyOn(router, 'navigate');
     component.onSubmit();
     const submittedUser = updateUserDetail.calls.argsFor(0)[0] as User;
     expect(submittedUser.email).toBe('dart.vader@dark-side.com');

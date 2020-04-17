@@ -1,10 +1,10 @@
 import {Component, OnInit} from '@angular/core';
-import {FormControl, FormGroup, Validators} from "@angular/forms";
-import {AccountStatus, AccountType, UsageType} from "../../models/account.model";
-import {AccountService} from "../../services/account.service";
-import {ActivatedRoute, Router} from "@angular/router";
-import {TestDataGenerationService} from "../../services/test.data.generation.service";
-import {InfoService} from "../../commons/info/info.service";
+import {FormControl, FormGroup, Validators} from '@angular/forms';
+import {AccountStatus, AccountType, UsageType} from '../../models/account.model';
+import {AccountService} from '../../services/account.service';
+import {ActivatedRoute, Router} from '@angular/router';
+import {TestDataGenerationService} from '../../services/test.data.generation.service';
+import {InfoService} from '../../commons/info/info.service';
 
 @Component({
   selector: 'app-account-detail',
@@ -13,11 +13,11 @@ import {InfoService} from "../../commons/info/info.service";
 })
 export class AccountDetailComponent implements OnInit {
   accountForm = new FormGroup({
-    'accountType': new FormControl('CASH', Validators.required),
-    'usageType': new FormControl(UsageType.PRIV, Validators.required),
-    'currency': new FormControl('EUR', Validators.required),
-    'iban': new FormControl(null, Validators.required),
-    'accountStatus': new FormControl(AccountStatus.ENABLED, Validators.required),
+    accountType: new FormControl('CASH', Validators.required),
+    usageType: new FormControl(UsageType.PRIV, Validators.required),
+    currency: new FormControl('EUR', Validators.required),
+    iban: new FormControl(null, Validators.required),
+    accountStatus: new FormControl(AccountStatus.ENABLED, Validators.required),
   });
   private userID: string;
 

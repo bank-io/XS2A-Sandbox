@@ -3,10 +3,10 @@ import {JwtHelperService} from '@auth0/angular-jwt';
 import {HttpClientTestingModule, HttpTestingController} from '@angular/common/http/testing';
 
 import {AuthService} from './auth.service';
-import {environment} from "../../environments/environment";
-import {RouterTestingModule} from "@angular/router/testing";
-import {Router} from "@angular/router";
-import {TppInfo} from "../models/tpp-info.model";
+import {environment} from '../../environments/environment';
+import {RouterTestingModule} from '@angular/router/testing';
+import {Router} from '@angular/router';
+import {TppInfo} from '../models/tpp-info.model';
 
 describe('AuthService', () => {
     let httpTestingController: HttpTestingController;
@@ -38,7 +38,7 @@ describe('AuthService', () => {
     }));
 
     it('should delete token on logout', () => {
-        let navigateSpy = spyOn(router, 'navigate').and.callFake(() => Promise.resolve([]));
+        const navigateSpy = spyOn(router, 'navigate').and.callFake(() => Promise.resolve([]));
         authService.logout();
 
         expect(localStorage.getItem('token')).toBeNull();
@@ -46,8 +46,8 @@ describe('AuthService', () => {
     });
 
     it('should call authorize when login', () => {
-        let getAuthorizationTokenSpy = spyOn(authService, 'authorize').and.callThrough();
-        let credentialsMock = {login: 's', pin: 'q'};
+        const getAuthorizationTokenSpy = spyOn(authService, 'authorize').and.callThrough();
+        const credentialsMock = {login: 's', pin: 'q'};
         authService.login(credentialsMock);
         expect(getAuthorizationTokenSpy).toHaveBeenCalled();
     });
@@ -58,13 +58,13 @@ describe('AuthService', () => {
         expect(authService.isLoggedIn()).toBeFalsy();
 
         // login credential is not correct
-        let credentialsMock = {login: 'q', pin: 'q'};
+        const credentialsMock = {login: 'q', pin: 'q'};
         authService.login(credentialsMock).subscribe(response => {
             console.log(response);
             expect(response).toBeFalsy()
         });
 
-        let req = httpTestingController.expectOne(url + '/login');
+        const req = httpTestingController.expectOne(url + '/login');
         expect(req.cancelled).toBeFalsy();
         expect(req.request.method).toEqual('POST');
         req.flush(credentialsMock);
@@ -73,18 +73,18 @@ describe('AuthService', () => {
     it('should test register method', () => {
 
         // login credential is not correct
-        let credentialsMock = {
+        const credentialsMock = {
             email: 'test@test.de',
             login: 'test',
             id: '12345678',
             pin: '123456'
         };
 
-        authService.register(credentialsMock as TppInfo, "DE").subscribe(response => {
+        authService.register(credentialsMock as TppInfo, 'DE').subscribe(response => {
             expect(response.email).toBe('test@test.de')
         });
 
-        let req = httpTestingController.expectOne(url + '/register');
+        const req = httpTestingController.expectOne(url + '/register');
         expect(req.cancelled).toBeFalsy();
         expect(req.request.method).toEqual('POST');
         req.flush(credentialsMock);

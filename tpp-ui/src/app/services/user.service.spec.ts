@@ -78,7 +78,7 @@ describe('UserService', () => {
     });
 
     it('should create a User', () => {
-        let mockUser: User = {
+        const mockUser: User = {
             accountAccesses: [
                 {id: 'bNrPhmm3SC0vwm2Tf4KknM', iban: 'DE51250400903312345678', accessType: 'OWNER', scaWeight: 70,
                     currency: 'EUR', accountId: 'accountId'},
@@ -109,7 +109,7 @@ describe('UserService', () => {
     });
 
     it('should updateUserDetails', () => {
-        let mockUser: User = {
+        const mockUser: User = {
             accountAccesses: [
                 {id: 'bNrPhmm3SC0vwm2Tf4KknM', iban: 'DE51250400903312345678', accessType: 'OWNER', scaWeight: 70,
                     currency: 'EUR', accountId: 'accountId'},

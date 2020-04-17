@@ -1,17 +1,15 @@
-import { HttpClientTestingModule } from '@angular/common/http/testing';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { RouterTestingModule } from '@angular/router/testing';
-import { NgbPaginationModule } from '@ng-bootstrap/ng-bootstrap';
-import { FilterPipeModule } from 'ngx-filter-pipe';
-import { of } from 'rxjs';
+import {HttpClientTestingModule} from '@angular/common/http/testing';
+import {async, ComponentFixture, TestBed} from '@angular/core/testing';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
+import {RouterTestingModule} from '@angular/router/testing';
+import {NgbPaginationModule} from '@ng-bootstrap/ng-bootstrap';
+import {FilterPipeModule} from 'ngx-filter-pipe';
+import {of} from 'rxjs';
 
-import { User } from '../../models/user.model';
-import { UserService } from '../../services/user.service';
-import { UsersComponent } from './users.component';
-import {PaginationContainerComponent} from "../../commons/pagination-container/pagination-container.component";
-import {PageConfig, PaginationConfigModel} from "../../models/pagination-config.model";
-
+import {User} from '../../models/user.model';
+import {UserService} from '../../services/user.service';
+import {UsersComponent} from './users.component';
+import {PaginationContainerComponent} from '../../commons/pagination-container/pagination-container.component';
 
 describe('UsersComponent', () => {
     let component: UsersComponent;
@@ -69,6 +67,8 @@ describe('UsersComponent', () => {
     });
 
     it('should load users',  () => {
+      const page = 5;
+      const size = 10;
         const mockUsers: User[] = [
             {
                 id: 'USERID',
@@ -82,7 +82,7 @@ describe('UsersComponent', () => {
         ];
         const getUsersSpy = spyOn(usersService, 'listUsers').and.returnValue(of({users: mockUsers, totalElements: mockUsers.length}));
 
-        component.listUsers(5,10, 'string');
+        component.listUsers(page,size, 'string');
 
         expect(getUsersSpy).toHaveBeenCalled();
         expect(component.users).toEqual(mockUsers);
@@ -90,27 +90,29 @@ describe('UsersComponent', () => {
     });
 
     it('should pageChange', () => {
+      const pageNumber = 10;
+      const pageSize = 5;
         const mockPageConfig = {
-            pageNumber: 10,
-            pageSize: 5
+            pageNumber: pageNumber,
+            pageSize: pageSize
         }
         component.searchForm.setValue({
                                     query: 'foo',
                                     itemsPerPage: 15});
         const listUsersSpy = spyOn(component, 'listUsers');
         component.pageChange(mockPageConfig);
-        expect(listUsersSpy).toHaveBeenCalledWith(10, 5, 'foo');
+        expect(listUsersSpy).toHaveBeenCalledWith(pageNumber, pageSize, 'foo');
     });
 
     it('should change the page size', () => {
-        const paginationConfigModel: PaginationConfigModel = {
-            itemsPerPage: 0,
-            currentPageNumber: 0,
-            totalItems: 0
-        }
-        component.config = paginationConfigModel;
-        component.changePageSize(10);
-        expect(component.config.itemsPerPage).toEqual(10);
+      const number = 10;
+      component.config = {
+          itemsPerPage: 0,
+          currentPageNumber: 0,
+          totalItems: 0
+        };
+        component.changePageSize(number);
+        expect(component.config.itemsPerPage).toEqual(number);
     });
 
 });

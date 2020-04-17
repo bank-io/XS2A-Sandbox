@@ -3,9 +3,9 @@ import {Component, OnInit} from '@angular/core';
 import {User} from '../../models/user.model';
 import {AuthService} from '../../services/auth.service';
 import {TppUserService} from '../../services/tpp.user.service';
-import {TppService} from "../../services/tpp.service";
-import {Router} from "@angular/router";
-import {NgbModal} from "@ng-bootstrap/ng-bootstrap";
+import {TppService} from '../../services/tpp.service';
+import {Router} from '@angular/router';
+import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-user-profile',

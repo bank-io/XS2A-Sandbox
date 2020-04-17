@@ -5,7 +5,7 @@ import {environment} from '../../environments/environment';
 import {AccountReport} from '../models/account-report';
 import {Amount} from '../models/amount.model';
 import {GrantAccountAccess} from '../models/grant-account-access.model';
-import {PaginationResponse} from "../models/pagination-reponse";
+import {PaginationResponse} from '../models/pagination-reponse';
 import {Account} from '../models/account.model';
 import {AccountService} from './account.service';
 import { AccountStatus, AccountType, UsageType } from '../models/account.model';
@@ -25,8 +25,8 @@ describe('AccountService', () => {
     })
 
     it('should be created', () => {
-        const accountService: AccountService = TestBed.get(AccountService);
-        expect(accountService).toBeTruthy();
+        const service: AccountService = TestBed.get(AccountService);
+        expect(service).toBeTruthy();
     });
 
     it('should get the account', () => {
@@ -39,7 +39,9 @@ describe('AccountService', () => {
     });
 
     it('should return expected list of users (HttpClient called once)', () => {
-        let mockAccounts: Account[] = [{
+      const page = 0;
+      const size = 25;
+        const mockAccounts: Account[] = [{
             id: 'id',
             iban: 'DE12 1234 5678 9012 3456 00',
             bban: 'bban',
@@ -58,7 +60,7 @@ describe('AccountService', () => {
             balances: []
         }];
 
-        accountService.getAccounts(0,25, '').subscribe(resp => {
+        accountService.getAccounts(page,size, '').subscribe(resp => {
             expect(resp.accounts[0].iban).toEqual('DE12 1234 5678 9012 3456 00');
             expect(resp.totalElements).toEqual(mockAccounts.length);
         });
@@ -88,7 +90,7 @@ describe('AccountService', () => {
     });
 
     it('should put the updateAccountAccessForUser', () => {
-        let mockAccountAccess: GrantAccountAccess = {
+        const mockAccountAccess: GrantAccountAccess = {
             id: 'id',
             accessType: 'OWNER',
             iban: 'DE12 1234 5678 9012 3456 00',
@@ -104,12 +106,13 @@ describe('AccountService', () => {
     });
 
     it('should post the depositCash', () => {
-        let mockAmount: Amount = {
+      const amount = 100;
+        const mockAmount: Amount = {
             currency: 'EUR',
             amount: 100
         }
         accountService.depositCash('accountId', mockAmount).subscribe((data: any) => {
-            expect(data.amount).toBe(100);});
+            expect(data.amount).toBe(amount);});
         const req = httpMock.expectOne(url + '/accounts/' + 'accountId' + '/deposit-cash');
         expect(req.request.method).toBe('POST');
         req.flush({amount: 100});
@@ -117,7 +120,7 @@ describe('AccountService', () => {
     });
 
     it('should create a account', () => {
-        let mockAccount: Account = {
+        const mockAccount: Account = {
             id: 'id',
             iban: 'DE12 1234 5678 9012 3456 00',
             bban: 'bban',

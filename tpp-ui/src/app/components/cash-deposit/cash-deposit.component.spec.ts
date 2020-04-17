@@ -50,12 +50,12 @@ describe('CashDepositComponent', () => {
             currency: 'EUR',
             amount: '50'
         })
-        let accountSpy = spyOn(accountService, 'getAccounts').and.returnValue(
+        const accountSpy = spyOn(accountService, 'getAccounts').and.returnValue(
             of({data: component.cashDepositForm.controls['currency'].setValue('EUR')}));
         component.ngOnInit();
 
-        expect(spyRoute).toHaveBeenCalled;
-        expect(accountSpy).toHaveBeenCalled;
+        expect(spyRoute).toHaveBeenCalled();
+        expect(accountSpy).toHaveBeenCalled();
     });
 
     it('should deposit cash when cashDepositForm is valid and submitted', () => {
@@ -69,8 +69,8 @@ describe('CashDepositComponent', () => {
 
         // cashDepositForm submit
         const sampleResponse = {value: 'sample response'};
-        let depositCashSpy = spyOn(accountService, 'depositCash').and.callFake(() => of(sampleResponse));
-        let navigateSpy = spyOn(router, 'navigate');
+        const depositCashSpy = spyOn(accountService, 'depositCash').and.callFake(() => of(sampleResponse));
+        const navigateSpy = spyOn(router, 'navigate');
         component.onSubmit();
         expect(component.submitted).toBeTruthy();
         expect(component.cashDepositForm.valid).toBeTruthy();
@@ -79,7 +79,7 @@ describe('CashDepositComponent', () => {
     });
 
     it('should throw error onSubmit', () => {
-        let depositCashSpy = spyOn(accountService, 'depositCash').and.returnValue(throwError({status: 404}));
+        const depositCashSpy = spyOn(accountService, 'depositCash').and.returnValue(throwError({status: 404}));
 
         // set valid values for cashDepositForm
         component.cashDepositForm.controls['currency'].setValue('EUR');

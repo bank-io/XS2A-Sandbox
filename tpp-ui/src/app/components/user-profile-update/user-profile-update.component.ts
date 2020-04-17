@@ -15,6 +15,7 @@ export class UserProfileUpdateComponent implements OnInit {
     public user: User;
     public userForm: FormGroup;
     public submitted: boolean;
+    private minPasswordLength = 5;
 
     constructor(private authService: AuthService,
         private userInfoService: TppUserService,
@@ -47,7 +48,7 @@ export class UserProfileUpdateComponent implements OnInit {
         this.userForm = this.formBuilder.group({
             username: ['', Validators.required],
             email: ['', [Validators.email, Validators.required]],
-            password: ['', Validators.minLength(5)]
+            password: ['', Validators.minLength(this.minPasswordLength)]
         })
     }
 
@@ -63,7 +64,7 @@ export class UserProfileUpdateComponent implements OnInit {
             pin: this.userForm.get('password').value.trim() ? this.userForm.get('password').value : this.user.pin
         };
         this.userInfoService.updateUserInfo(updatedUser).subscribe(
-          () => this.router.navigate(["/profile"])
+          () => this.router.navigate(['/profile'])
         );
     }
 }

@@ -1,10 +1,10 @@
 import {Component, OnInit} from '@angular/core';
-import {UserService} from "../../../services/user.service";
-import {FormArray, FormBuilder, FormGroup, Validators} from "@angular/forms";
-import {User} from "../../../models/user.model";
-import {ActivatedRoute, Router} from "@angular/router";
-import {map} from "rxjs/operators";
-import {ScaMethods} from "../../../models/scaMethods";
+import {UserService} from '../../../services/user.service';
+import {FormArray, FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {User} from '../../../models/user.model';
+import {ActivatedRoute, Router} from '@angular/router';
+import {map} from 'rxjs/operators';
+import {ScaMethods} from '../../../models/scaMethods';
 
 @Component({
     selector: 'app-user-update',
@@ -19,6 +19,7 @@ export class UserUpdateComponent implements OnInit {
     userId: string;
     public submitted: boolean;
     public errorMessage: string;
+  private minPasswordLength = 5;
 
     constructor(private userService: UserService,
                 private formBuilder: FormBuilder,
@@ -47,7 +48,7 @@ export class UserUpdateComponent implements OnInit {
             scaUserData: this.formBuilder.array([]),
             email: ['', [Validators.required, Validators.email]],
             login: ['', Validators.required],
-            pin: ['', [Validators.required, Validators.minLength(5)]],
+            pin: ['', [Validators.required, Validators.minLength(this.minPasswordLength)]],
         });
     }
 
@@ -122,7 +123,7 @@ export class UserUpdateComponent implements OnInit {
                 pin: this.user.pin,
                 login: this.user.login,
             });
-            const scaUserData = <FormArray>this.updateUserForm.get('scaUserData');
+            const scaUserData = this.updateUserForm.get('scaUserData') as FormArray;
             this.user.scaUserData.forEach((value, i) => {
                 if (scaUserData.length < i + 1) {
                     scaUserData.push(this.initScaData());
@@ -133,12 +134,12 @@ export class UserUpdateComponent implements OnInit {
     }
 
     addScaDataItem() {
-        const control = <FormArray>this.updateUserForm.controls['scaUserData'];
+        const control = this.updateUserForm.controls['scaUserData'] as FormArray;
         control.push(this.initScaData());
     }
 
     removeScaDataItem(i: number) {
-        const control = <FormArray>this.updateUserForm.controls['scaUserData'];
+        const control = this.updateUserForm.controls['scaUserData'] as FormArray;
         control.removeAt(i);
     }
 

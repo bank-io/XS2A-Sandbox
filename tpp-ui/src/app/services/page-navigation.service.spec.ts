@@ -4,8 +4,8 @@ import {PageNavigationService} from './page-navigation.service';
 
 describe('PageNavigationService', () => {
   let service: PageNavigationService;
-  let storage = {};
-  let pageLink = 'link';
+  const storage = {};
+  const pageLink = 'link';
 
   beforeEach(() => {
     TestBed.configureTestingModule({
