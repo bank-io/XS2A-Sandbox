@@ -5,7 +5,8 @@ import {
   ViewEncapsulation,
   ElementRef,
   SimpleChanges,
-  OnChanges, HostBinding
+  OnChanges,
+  HostBinding,
 } from '@angular/core';
 import { DomSanitizer } from '@angular/platform-browser';
 import { take } from 'rxjs/operators';
@@ -15,7 +16,7 @@ import { IconRegistry } from './icon-registry';
   selector: 'app-icon',
   template: '<ng-content></ng-content>',
   styleUrls: ['./icon.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class IconComponent implements OnChanges {
   /**
@@ -28,17 +29,10 @@ export class IconComponent implements OnChanges {
   @Input()
   svgIcon: string;
 
-  constructor(
-    private _elementRef: ElementRef<HTMLElement>,
-    private _iconRegistry: IconRegistry,
-    private _sanitizer: DomSanitizer
-  ) {
+  constructor(private _elementRef: ElementRef<HTMLElement>, private _iconRegistry: IconRegistry, private _sanitizer: DomSanitizer) {
     const icons = ['user', 'account', 'upload', 'euro', 'add', 'generate_test_data', 'settings'];
-    icons.forEach(val => {
-      this._iconRegistry.addSvgIcon(
-          val,
-        this._sanitizer.bypassSecurityTrustResourceUrl('assets/icons/' + val + '.svg')
-      );
+    icons.forEach((val) => {
+      this._iconRegistry.addSvgIcon(val, this._sanitizer.bypassSecurityTrustResourceUrl('assets/icons/' + val + '.svg'));
     });
   }
 
@@ -70,7 +64,7 @@ export class IconComponent implements OnChanges {
           .getNamedSvgIcon(iconName, namespace)
           .pipe(take(1))
           .subscribe(
-            svg => this._setSvgElement(svg),
+            (svg) => this._setSvgElement(svg),
             (err: Error) => console.error(`Error retrieving icon: ${err.message}`)
           );
       } else {
@@ -86,7 +80,7 @@ export class IconComponent implements OnChanges {
     // See: https://developer.microsoft.com/en-us/microsoft-edge/platform/issues/10898469/
     // Do this before inserting the element into the DOM, in order to avoid a style recalculation.
     const styleTags = svg.querySelectorAll('style') as NodeListOf<HTMLStyleElement>;
-    styleTags.forEach(s =>   s.textContent += ' ')
+    styleTags.forEach((s) => (s.textContent += ' '));
     this._elementRef.nativeElement.appendChild(svg);
   }
 

@@ -1,18 +1,18 @@
-import {HttpClientTestingModule} from '@angular/common/http/testing';
-import {DebugElement} from '@angular/core';
-import {async, ComponentFixture, TestBed} from '@angular/core/testing';
-import {FormsModule, ReactiveFormsModule} from '@angular/forms';
-import {By} from '@angular/platform-browser';
-import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
-import {Router} from '@angular/router';
-import {RouterTestingModule} from '@angular/router/testing';
-import {of} from 'rxjs';
-import {InfoService} from '../../../commons/info/info.service';
-import {InfoModule} from '../../../commons/info/info.module';
-import {AuthService} from '../../../services/auth.service';
-import {CertificateComponent} from '../certificate/certificate.component';
-import {RegisterComponent} from './register.component';
-import {TppIdStructure, TppIdType} from '../../../models/tpp-id-structure.model';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { DebugElement } from '@angular/core';
+import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { By } from '@angular/platform-browser';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { Router } from '@angular/router';
+import { RouterTestingModule } from '@angular/router/testing';
+import { of } from 'rxjs';
+import { InfoService } from '../../../commons/info/info.service';
+import { InfoModule } from '../../../commons/info/info.module';
+import { AuthService } from '../../../services/auth.service';
+import { CertificateComponent } from '../certificate/certificate.component';
+import { RegisterComponent } from './register.component';
+import { TppIdStructure, TppIdType } from '../../../models/tpp-id-structure.model';
 
 describe('RegisterComponent', () => {
   let component: RegisterComponent;
@@ -25,17 +25,10 @@ describe('RegisterComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [
-        ReactiveFormsModule,
-        HttpClientTestingModule,
-        RouterTestingModule,
-        BrowserAnimationsModule,
-        InfoModule, FormsModule
-      ],
+      imports: [ReactiveFormsModule, HttpClientTestingModule, RouterTestingModule, BrowserAnimationsModule, InfoModule, FormsModule],
       providers: [AuthService, InfoService],
-      declarations: [RegisterComponent, CertificateComponent]
-    })
-      .compileComponents();
+      declarations: [RegisterComponent, CertificateComponent],
+    }).compileComponents();
   }));
 
   beforeEach(() => {
@@ -54,7 +47,7 @@ describe('RegisterComponent', () => {
 
   const testTppStructure: TppIdStructure = {
     length: 8,
-    type: TppIdType.n
+    type: TppIdType.n,
   };
 
   it('should create', () => {
@@ -134,7 +127,7 @@ describe('RegisterComponent', () => {
     expect(component.userForm.valid).toBeTruthy();
 
     // submit form
-    const registerSpy = spyOn(authService, 'register').and.callFake(() => of({value: 'sample response'}));
+    const registerSpy = spyOn(authService, 'register').and.callFake(() => of({ value: 'sample response' }));
     const navigateSpy = spyOn(router, 'navigate').and.callFake(() => Promise.resolve([]));
     component.onSubmit();
     expect(registerSpy).toHaveBeenCalled();
@@ -149,7 +142,7 @@ describe('RegisterComponent', () => {
 
   it('should initialize a country List', () => {
     const mockData = [];
-    const getCountryCodesSpy = spyOn(authService, 'getCountryCodes').and.returnValue(of({mockData}));
+    const getCountryCodesSpy = spyOn(authService, 'getCountryCodes').and.returnValue(of({ mockData }));
     component.initializeCountryList();
     expect(getCountryCodesSpy).toHaveBeenCalled();
   });
@@ -166,7 +159,7 @@ describe('RegisterComponent', () => {
   it('should select a country', () => {
     const data = {};
     component.userForm.get('id').setValue('123456');
-    const getCountrySpy = spyOn(authService, 'getTppIdStructure').and.returnValue(of({data}));
+    const getCountrySpy = spyOn(authService, 'getTppIdStructure').and.returnValue(of({ data }));
     component.selectCountry();
     expect(getCountrySpy).toHaveBeenCalled();
   });

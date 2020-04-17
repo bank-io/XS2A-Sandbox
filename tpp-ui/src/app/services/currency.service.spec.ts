@@ -1,8 +1,8 @@
 import { TestBed } from '@angular/core/testing';
 
 import { CurrencyService } from './currency.service';
-import {HttpClientTestingModule, HttpTestingController} from '@angular/common/http/testing';
-import {environment} from '../../environments/environment';
+import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
+import { environment } from '../../environments/environment';
 
 describe('CurrencyService', () => {
   let currencyService: CurrencyService;
@@ -15,20 +15,20 @@ describe('CurrencyService', () => {
       providers: [CurrencyService],
     });
     currencyService = TestBed.get(CurrencyService);
-      httpMock = TestBed.get(HttpTestingController);
+    httpMock = TestBed.get(HttpTestingController);
   });
 
   afterEach(() => {
-      httpMock.verify();
+    httpMock.verify();
   });
 
   it('should be created', () => {
-    const currencyService: CurrencyService = TestBed.get(CurrencyService);
-    expect(currencyService).toBeTruthy();
+    const service: CurrencyService = TestBed.get(CurrencyService);
+    expect(service).toBeTruthy();
   });
 
   it('should get supported Currencies', () => {
-      currencyService.getSupportedCurrencies();
-      httpMock.verify();
+    currencyService.getSupportedCurrencies();
+    httpMock.verify();
   });
 });
